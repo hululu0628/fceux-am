@@ -710,7 +710,10 @@ int iNESLoad(const char *name, FCEUFILE *fp, int OverwriteVidMode) {
 	struct md5_context md5;
 
 	if (FCEU_fread(&head, 1, 16, fp) != 16 || memcmp(&head, "NES\x1A", 4))
+	{
+		printf("Error: Not an iNES file\n");
 		return 0;
+	}
 
 	head.cleanup();
 
@@ -760,7 +763,9 @@ int iNESLoad(const char *name, FCEUFILE *fp, int OverwriteVidMode) {
 	}
 
 	if ((ROM = (uint8*)FCEU_malloc(ROM_size << 14)) == NULL)
+	{
 		return 0;
+	}
 	memset(ROM, 0xFF, ROM_size << 14);
 
 	if (VROM_size) {
